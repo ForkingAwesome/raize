@@ -17,6 +17,10 @@ import { useClientOnce } from "@/hooks/useClientOnce";
 import { setLocale } from "@/core/i18n/locale";
 import { init } from "@/core/init";
 
+import { DynamicContextProvider } from "@dynamic-labs/sdk-react-core";
+import { EthereumWalletConnectors } from "@dynamic-labs/ethereum";
+import { FlowWalletConnectors } from "@dynamic-labs/flow";
+
 import "./styles.css";
 
 function RootInner({ children }: PropsWithChildren) {
@@ -54,7 +58,14 @@ function RootInner({ children }: PropsWithChildren) {
       appearance={isDark ? "dark" : "light"}
       platform={["macos", "ios"].includes(lp.platform) ? "ios" : "base"}
     >
-      {children}
+      <DynamicContextProvider
+        settings={{
+          environmentId: "edccd79c-b6c0-46f3-9dfb-93e46477af3a",
+          walletConnectors: [EthereumWalletConnectors, FlowWalletConnectors],
+        }}
+      >
+        {children}
+      </DynamicContextProvider>
     </AppRoot>
   );
 }
