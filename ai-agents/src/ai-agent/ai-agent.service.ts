@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class BrianService {
+export class AiAgentService {
+  constructor() {}
+
   test() {
-    return 'This action adds a new brian';
+    return 'Test';
   }
 }
