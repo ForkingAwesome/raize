@@ -4,8 +4,17 @@ import { getLocale } from "next-intl/server";
 
 import { Root } from "@/components/Root/Root";
 import { I18nProvider } from "@/core/i18n/provider";
+import { Abhaya_Libre } from "next/font/google";
 
 import "./_assets/globals.css";
+import "normalize.css";
+
+const AbhayaLibre = Abhaya_Libre({
+  subsets: ["latin"],
+  display: "auto",
+  variable: "--font-abhaya",
+  weight: "700",
+});
 
 export const metadata: Metadata = {
   title: "Your Application Title Goes Here",
@@ -17,7 +26,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
 
   return (
     <html lang={locale}>
-      <body>
+      <body className={`${AbhayaLibre.variable}`}>
         <I18nProvider>
           <Root>{children}</Root>
         </I18nProvider>
