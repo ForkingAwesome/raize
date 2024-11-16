@@ -1,4 +1,4 @@
-import { http, createConfig } from "wagmi";
+import { createConfig } from "wagmi";
 import {
   sepolia,
   flowTestnet,
@@ -9,10 +9,11 @@ import {
   polygonZkEvmTestnet,
   worldchainSepolia,
   rootstockTestnet,
-} from "wagmi/chains";
-import { injected, walletConnect } from "wagmi/connectors";
+} from "viem/chains";
+import { http } from "viem";
 
 export const wagmiConfig = createConfig({
+  multiInjectedProviderDiscovery: false,
   chains: [
     sepolia,
     flowTestnet,

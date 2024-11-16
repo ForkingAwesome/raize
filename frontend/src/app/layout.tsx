@@ -9,6 +9,7 @@ import { WagmiProvider } from "wagmi";
 
 import "./_assets/globals.css";
 import "normalize.css";
+import { Providers } from "./providers";
 
 const AbhayaLibre = Abhaya_Libre({
   subsets: ["latin"],
@@ -29,7 +30,9 @@ export default async function RootLayout({ children }: PropsWithChildren) {
     <html lang={locale}>
       <body className={`${AbhayaLibre.variable}`}>
         <I18nProvider>
-          <Root>{children}</Root>
+          <Providers>
+            <Root>{children}</Root>
+          </Providers>
         </I18nProvider>
       </body>
     </html>
