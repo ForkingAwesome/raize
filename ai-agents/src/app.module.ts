@@ -5,7 +5,13 @@ import { ConfigModule } from '@nestjs/config';
 import { AiAgentModule } from './ai-agent/ai-agent.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(), AiAgentModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: [`.env.${process.env.NODE_ENV}`, '.env'],
+    }),
+    AiAgentModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
