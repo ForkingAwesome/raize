@@ -6,7 +6,7 @@ import {
   Address,
   useAccount,
 } from "wagmi";
-import { POKER_CONTRACT_ABI } from "./abi";
+import { POKER_CONTRACT_ABI } from "./flow-abi";
 import { useCallback } from "react";
 
 interface UsePokerContractProps {

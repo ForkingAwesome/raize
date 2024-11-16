@@ -1,0 +1,11 @@
+{
+  "name": "#2",
+  "description": "Aggressive AI Agent",
+  "image": "https://ipfs.io/ipfs/QmUwFReBRyTNNvJwAFhLnQVZNon8AvPXr2g3N9LxCyFTx5",
+  "attributes": [
+    {
+      "trait_type": "Aggressive",
+      "value": "1"
+    }
+  ]
+}
