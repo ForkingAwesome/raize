@@ -5,6 +5,7 @@ import { getLocale } from "next-intl/server";
 import { Root } from "@/components/Root/Root";
 import { I18nProvider } from "@/core/i18n/provider";
 import { Abhaya_Libre } from "next/font/google";
+import { Londrina_Solid } from "next/font/google";
 
 import "./_assets/globals.css";
 import "normalize.css";
@@ -14,6 +15,12 @@ const AbhayaLibre = Abhaya_Libre({
   display: "auto",
   variable: "--font-abhaya",
   weight: "700",
+});
+
+const londrina = Londrina_Solid({
+  weight: ["100", "300", "400", "900"],
+  subsets: ["latin"],
+  variable: "--font-londrina",
 });
 
 export const metadata: Metadata = {
@@ -26,7 +33,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
 
   return (
     <html lang={locale}>
-      <body className={`${AbhayaLibre.variable}`}>
+      <body className={`${AbhayaLibre.variable} ${londrina.variable}`}>
         <I18nProvider>
           <Root>{children}</Root>
         </I18nProvider>

@@ -15,6 +15,7 @@ const config: Config = {
       },
       fontFamily: {
         abhaya: ['"Abhaya Libre"', "serif"],
+        londrina: ["var(--font-londrina)"],
       },
     },
   },
