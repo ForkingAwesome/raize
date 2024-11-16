@@ -1,40 +1,23 @@
-import { createConfig } from "wagmi";
-import {
-  sepolia,
-  flowTestnet,
-  baseSepolia,
-  arbitrumSepolia,
-  mantleSepoliaTestnet,
-  auroraTestnet,
-  polygonZkEvmTestnet,
-  worldchainSepolia,
-  rootstockTestnet,
-} from "viem/chains";
-import { http } from "viem";
+import { http, cookieStorage, createConfig, createStorage } from "wagmi";
+import { base } from "wagmi/chains"; // add baseSepolia for testing
+import { coinbaseWallet } from "wagmi/connectors";
 
-export const wagmiConfig = createConfig({
-  multiInjectedProviderDiscovery: false,
-  chains: [
-    sepolia,
-    flowTestnet,
-    baseSepolia,
-    arbitrumSepolia,
-    mantleSepoliaTestnet,
-    auroraTestnet,
-    polygonZkEvmTestnet,
-    worldchainSepolia,
-    rootstockTestnet,
-  ],
-  transports: {
-    [sepolia.id]: http(),
-    [flowTestnet.id]: http(),
-    [baseSepolia.id]: http(),
-    [arbitrumSepolia.id]: http(),
-    [mantleSepoliaTestnet.id]: http(),
-    [auroraTestnet.id]: http(),
-    [polygonZkEvmTestnet.id]: http(),
-    [worldchainSepolia.id]: http(),
-    [rootstockTestnet.id]: http(),
-  },
-  // connectors: [injected()],
-});
+export function getConfig() {
+  return createConfig({
+    chains: [base], // add baseSepolia for testing
+    connectors: [
+      coinbaseWallet({
+        appName: "OnchainKit",
+        preference: "smartWalletOnly",
+        version: "4",
+      }),
+    ],
+    storage: createStorage({
+      storage: cookieStorage,
+    }),
+    ssr: true,
+    transports: {
+      [base.id]: http(), // add baseSepolia for testing
+    },
+  });
+}

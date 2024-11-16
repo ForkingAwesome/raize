@@ -6,12 +6,26 @@ import Image from "next/image";
 import CardsAndChips from "@/components/ui/CardsAndChips";
 import { motion } from "framer-motion";
 import Traits from "@/components/ui/Traits";
-import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
+
+import {
+  ConnectWallet,
+  Wallet,
+  WalletDropdown,
+  WalletDropdownLink,
+  WalletDropdownDisconnect,
+} from "@coinbase/onchainkit/wallet";
+import {
+  Address,
+  Avatar,
+  Name,
+  Identity,
+  EthBalance,
+} from "@coinbase/onchainkit/identity";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
   const [currentScreen, setCurrentScreen] = useState(0);
-
-  const { setShowAuthFlow } = useDynamicContext();
 
   const goToNextScreen = () => {
     setCurrentScreen((prevScreen) => (prevScreen + 1) % 3);
@@ -76,12 +90,32 @@ export default function Home() {
               height={300}
             />
             <Traits />
-            <button
-              className="bg-[url('/loading_screen_button_bg.png')] bg-no-repeat bg-cover px-14 py-5 font-bold font-abhaya"
-              onClick={() => setShowAuthFlow(true)}
-            >
-              Login to play
-            </button>
+            <Wallet>
+              <ConnectWallet
+                text="Login to Play"
+                onConnect={() => router.push("/game")}
+              >
+                <Avatar className="h-6 w-6" />
+                <Name />
+              </ConnectWallet>
+              <WalletDropdown>
+                <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+                  <Avatar />
+                  <Name />
+                  <Address />
+                  <EthBalance />
+                </Identity>
+                <WalletDropdownLink
+                  icon="wallet"
+                  href="https://keys.coinbase.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Wallet
+                </WalletDropdownLink>
+                <WalletDropdownDisconnect />
+              </WalletDropdown>
+            </Wallet>
           </div>
         )}
       </div>
