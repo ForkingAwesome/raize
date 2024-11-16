@@ -50,6 +50,14 @@ const Page = () => {
     functionName: "gameState",
   });
 
+  const { data: currentPlayer, refetch: setCurrentPlayer } = useReadContract({
+    abi: FLOW_POKER_OLD_ABI,
+    address: FLOW_POKER_OLD_ADDRESS,
+    functionName: "currentPlayer",
+  });
+
+  const isMyTurn = currentPlayer === address;
+
   const { data: player1, refetch: refetchPlayer1 } = useReadContract({
     abi: FLOW_POKER_OLD_ABI,
     address: FLOW_POKER_OLD_ADDRESS,
@@ -60,6 +68,12 @@ const Page = () => {
     abi: FLOW_POKER_OLD_ABI,
     address: FLOW_POKER_OLD_ADDRESS,
     functionName: "player2",
+  });
+
+  const { data: currentBet, refetch: setCurrentBet } = useReadContract({
+    abi: FLOW_POKER_OLD_ABI,
+    address: FLOW_POKER_OLD_ADDRESS,
+    functionName: "currentBet",
   });
 
   const [isPoolingStart, setPoolingStart] = useState(true);
