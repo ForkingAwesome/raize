@@ -11,7 +11,7 @@ const Opponent = () => {
           $0
         </div>
       </div>
-      <div className="bg-white border border-black border-1 rounded-full p-1">
+      <div className="bg-white border border-black border-1 rounded-full p-1.5">
         Opponent Name - AI NFT Name
       </div>
       <div>

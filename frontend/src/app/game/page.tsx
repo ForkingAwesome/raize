@@ -7,12 +7,25 @@ import SendButton from "@/components/ui/GameMatching/SendButton";
 import UserData from "@/components/ui/GameMatching/UserData";
 import Image from "next/image";
 import { useState } from "react";
+import CurrentCards from "../../components/ui/Game/CurrentCards";
+import User from "@/components/ui/Game/User";
 
 const page = () => {
   const [currentScreen, setCurrentScreen] = useState(3);
   const [isPoolingStart, setPoolingStart] = useState(true);
   const [isSmallBind, setSmallBind] = useState(true);
   const [isGameStarted, setGameStarted] = useState(false);
+  const [cardStates, setCardStates] = useState<Array<null | string>>([
+    "9,spades",
+    "king,club",
+    "ace,hearts",
+    null,
+    null,
+  ]);
+  const [userCards, setUserCards] = useState<Array<string>>([
+    "9,club",
+    "ace,spades",
+  ]);
 
   const goToNextScreen = () => {
     setCurrentScreen((prevScreen) => (prevScreen + 1) % 4);
@@ -108,7 +121,7 @@ const page = () => {
         </div>
       )}
       {currentScreen === 3 && (
-        <div className="flex flex-col gap-10">
+        <div className="flex flex-col gap-10 items-center">
           {/* <div className="flex flex-row">
             <Image
               src="/nft_profile_user.svg"
@@ -125,6 +138,25 @@ const page = () => {
           </div> */}
           <div className="font-abhaya text-4xl">brain.ai called!</div>
           <Opponent />
+          <CurrentCards
+            card1={cardStates[0]}
+            card2={cardStates[1]}
+            card3={cardStates[2]}
+            card4={cardStates[3]}
+            card5={cardStates[4]}
+          />
+          <User card1={userCards[0]} card2={userCards[1]} />
+          <div className="flex gap-48">
+            <button>
+              <Image
+                src="/exit_button.png"
+                alt="Exit Button"
+                width="48"
+                height="36"
+              />
+            </button>
+            <button className="text-2xl font-bold font-abhaya">03:01</button>
+          </div>
         </div>
       )}
     </div>
