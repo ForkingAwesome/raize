@@ -1337,7 +1337,7 @@ export const FLOW_POKER_FACTORY = [
 ] as const;
 
 export const FLOW_POKER_OLD_ADDRESS =
-  "0x9157C3643a6F5194D266f4bceeC56818c36157fc";
+  "0x60f2F249e319588A84Cad14AE8B9Eb9d8413D9eC";
 
 export const FLOW_POKER_OLD_ABI = [
   {
@@ -1695,6 +1695,146 @@ export const FLOW_POKER_OLD_ABI = [
         internalType: "enum GameLogic.GameState",
         name: "",
         type: "uint8",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getCommunityCardsByStage",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "string",
+            name: "rank",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "suit",
+            type: "string",
+          },
+        ],
+        internalType: "struct CardLib.Card[3]",
+        name: "flopCards",
+        type: "tuple[3]",
+      },
+      {
+        components: [
+          {
+            internalType: "string",
+            name: "rank",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "suit",
+            type: "string",
+          },
+        ],
+        internalType: "struct CardLib.Card",
+        name: "turnCard",
+        type: "tuple",
+      },
+      {
+        components: [
+          {
+            internalType: "string",
+            name: "rank",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "suit",
+            type: "string",
+          },
+        ],
+        internalType: "struct CardLib.Card",
+        name: "riverCard",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint8",
+        name: "index",
+        type: "uint8",
+      },
+    ],
+    name: "getDealerCardAt",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "string",
+            name: "rank",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "suit",
+            type: "string",
+          },
+        ],
+        internalType: "struct CardLib.Card",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getDealerCommunityCards",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "string",
+            name: "rank",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "suit",
+            type: "string",
+          },
+        ],
+        internalType: "struct CardLib.Card[5]",
+        name: "",
+        type: "tuple[5]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getVisibleCommunityCards",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "string",
+            name: "rank",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "suit",
+            type: "string",
+          },
+        ],
+        internalType: "struct CardLib.Card[]",
+        name: "visibleCards",
+        type: "tuple[]",
       },
     ],
     stateMutability: "view",
