@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { AxiosError } from 'axios';
-import { redpillBase } from 'src/lib/axios';
+import { hyperbolicBase, redpillBase } from 'src/lib/axios';
 
 const systemInstructions = `
       You are an AI poker agent that makes decisions based on NFT parameters. You must:
@@ -66,16 +66,16 @@ Example player state input format:
 export class AiAgentService {
   constructor() {}
 
-  async test() {
+  async getRedpillResponse() {
     try {
       const res = await redpillBase.post('', {
         model: 'gpt-4o',
         // response_format: 'json_object',
         messages: [
-          //   {
-          //     role: 'system',
-          //     content: systemInstructions,
-          //   },
+          {
+            role: 'system',
+            content: systemInstructions,
+          },
           {
             role: 'user',
             content: `Answer in just JSON
@@ -85,19 +85,64 @@ export class AiAgentService {
         ],
       });
 
-      const x = JSON.parse(
-        (res.data.choices[0].message.content as string).slice(7).slice(0, -3),
-      );
-      console.log(x);
+      const data = JSON.parse(res.data.choices[0].message.content);
 
-      return x;
+      return data;
+
+      //   const x = JSON.parse(
+      //     (res.data.choices[0].message.content as string).slice(7).slice(0, -3),
+      //   );
+      //   console.log(x);
+
+      //   return x;
     } catch (e: any) {
       const error: AxiosError = e;
 
-      console.log(error);
+      //   console.log(error.response.data);
 
-      //   console.log(error.toJSON());
-      //   console.log(error.request._header);
+      console.log(error);
+      // console.log(error.request._header);
+    }
+
+    return 'Test';
+  }
+
+  async getHyperbolicResponse() {
+    try {
+      const res = await hyperbolicBase.post('', {
+        model: 'meta-llama/Meta-Llama-3.1-405B-Instruct',
+        messages: [
+          {
+            role: 'system',
+            content: systemInstructions,
+          },
+          {
+            role: 'user',
+            content: `Answer in just JSON
+              
+              I have a 5 and a Ace, The pot is 700, I have to call 100, the numbers released by dealear are 7, 8, 10. Play it risky`,
+          },
+        ],
+        stream: false,
+      });
+
+      const data = JSON.parse(res.data.choices[0].message.content);
+
+      return data;
+
+      //   const x = JSON.parse(
+      //     (res.data.choices[0].message.content as string).slice(7).slice(0, -3),
+      //   );
+      //   console.log(x);
+
+      //   return x;
+    } catch (e: any) {
+      const error: AxiosError = e;
+
+      //   console.log(error.response.data);
+
+      console.log(error);
+      // console.log(error.request._header);
     }
 
     return 'Test';
