@@ -6,12 +6,24 @@ import OpponentData from "@/components/ui/GameMatching/OpponentData";
 import SendButton from "@/components/ui/GameMatching/SendButton";
 import UserData from "@/components/ui/GameMatching/UserData";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CurrentCards from "../../components/ui/Game/CurrentCards";
 import User from "@/components/ui/Game/User";
+import { useAccount, useWriteContract } from "wagmi";
+import {
+  FLOW_POKER_FACTORY,
+  FLOW_POKER_FACTORY_ADDRESS,
+  FLOW_POKER_OLD_ABI,
+  FLOW_POKER_OLD_ADDRESS,
+} from "@/lib/flow-abi";
 
-const page = () => {
-  const [currentScreen, setCurrentScreen] = useState(3);
+const Page = () => {
+  const [currentScreen, setCurrentScreen] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const { address } = useAccount();
+
+  const { writeContractAsync, data, error } = useWriteContract();
+
   const [isPoolingStart, setPoolingStart] = useState(true);
   const [isSmallBind, setSmallBind] = useState(true);
   const [isGameStarted, setGameStarted] = useState(false);
@@ -31,6 +43,65 @@ const page = () => {
     setCurrentScreen((prevScreen) => (prevScreen + 1) % 4);
   };
 
+  useEffect(() => {
+    console.log(data);
+    console.log(error);
+  }, [data, error]);
+
+  async function onGameStart() {
+    console.log("Hello");
+
+    const res = await writeContractAsync(
+      {
+        abi: FLOW_POKER_OLD_ABI,
+        address: FLOW_POKER_OLD_ADDRESS,
+        functionName: "startGame",
+        args: [],
+      },
+      {
+        onSuccess: (data) => {
+          console.log("Success", data);
+        },
+        onSettled: (data) => {
+          console.log("Settled", data);
+          goToNextScreen();
+          goToNextScreen();
+          goToNextScreen();
+        },
+        onError: (error) => {
+          console.log("Error", error);
+        },
+      }
+    );
+  }
+
+  async function onCall() {
+    console.log("Hello");
+
+    const res = await writeContractAsync(
+      {
+        abi: FLOW_POKER_OLD_ABI,
+        address: FLOW_POKER_OLD_ADDRESS,
+        functionName: "call",
+        args: [],
+      },
+      {
+        onSuccess: (data) => {
+          console.log("Success", data);
+        },
+        onSettled: (data) => {
+          console.log("Settled", data);
+          goToNextScreen();
+          goToNextScreen();
+          goToNextScreen();
+        },
+        onError: (error) => {
+          console.log("Error", error);
+        },
+      }
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-[#89BDB1] items-center p-2 gap-10">
       <div className="flex flex-row items-center justify-center">
@@ -39,6 +110,7 @@ const page = () => {
         </h1>
         <Image src="/star.png" width="8" height="17" alt="star"></Image>
       </div>
+
       {currentScreen === 0 && (
         <div className="flex flex-col gap-24">
           <div className="flex flex-col items-center gap-4">
@@ -51,13 +123,13 @@ const page = () => {
           <div className="flex flex-col items-center gap-4">
             <button
               className="bg-[url('/loading_screen_button_bg.png')] bg-no-repeat bg-cover px-14 py-6 font-bold font-abhaya"
-              onClick={goToNextScreen}
+              onClick={onGameStart}
             >
               Play with brain.ai
             </button>
             <button
               className="bg-[url('/button_bg_2.png')] bg-no-repeat bg-cover px-16 py-6 font-bold font-abhaya"
-              onClick={goToNextScreen}
+              onClick={onGameStart}
             >
               Play yourself
             </button>
@@ -72,6 +144,7 @@ const page = () => {
           </div>
         </div>
       )}
+
       {currentScreen === 1 && (
         <div className="flex flex-col items-center gap-44">
           <div className="flex flex-col gap-16 items-center">
@@ -92,6 +165,7 @@ const page = () => {
           </div>
         </div>
       )}
+
       {currentScreen === 2 && (
         <div className="flex flex-col items-center gap-44">
           <div className="flex flex-col gap-16 items-center">
@@ -120,6 +194,7 @@ const page = () => {
           )}
         </div>
       )}
+
       {currentScreen === 3 && (
         <div className="flex flex-col gap-10 items-center">
           {/* <div className="flex flex-row">
@@ -163,4 +238,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

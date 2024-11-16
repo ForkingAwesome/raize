@@ -7,8 +7,13 @@ import CardsAndChips from "@/components/ui/CardsAndChips";
 import { motion } from "framer-motion";
 import Traits from "@/components/ui/Traits";
 import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
+import { useAccount } from "wagmi";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const { address, isConnected } = useAccount();
+  const router = useRouter();
+
   const [currentScreen, setCurrentScreen] = useState(0);
 
   const { setShowAuthFlow } = useDynamicContext();
@@ -78,9 +83,15 @@ export default function Home() {
             <Traits />
             <button
               className="bg-[url('/loading_screen_button_bg.png')] bg-no-repeat bg-cover px-14 py-5 font-bold font-abhaya"
-              onClick={() => setShowAuthFlow(true)}
+              onClick={() => {
+                if (isConnected) {
+                  router.push("/game");
+                } else {
+                  setShowAuthFlow(true);
+                }
+              }}
             >
-              Login to play
+              {isConnected ? "Continue" : "Login to play"}
             </button>
           </div>
         )}
