@@ -43,36 +43,31 @@ const Page = () => {
     setCurrentScreen((prevScreen) => (prevScreen + 1) % 4);
   };
 
-  useEffect(() => {
-    console.log(data);
-    console.log(error);
-  }, [data, error]);
+  // useEffect(() => {
+  //   console.log(data);
+  //   console.log(error);
+  // }, [data, error]);
 
   async function onGameStart() {
-    console.log("onGameStart");
+    try {
+      console.log("onGameStart");
 
-    const res = await writeContractAsync(
-      {
+      const res = await writeContractAsync({
         abi: FLOW_POKER_OLD_ABI,
         address: FLOW_POKER_OLD_ADDRESS,
         functionName: "startGame",
         args: [],
-      },
-      {
-        onSuccess: (data) => {
-          console.log("Success", data);
-        },
-        onSettled: (data) => {
-          console.log("Settled", data);
-          goToNextScreen();
-          goToNextScreen();
-          goToNextScreen();
-        },
-        onError: (error) => {
-          console.log("Error", error);
-        },
+      });
+
+      if (res) {
+        console.log("Settled", data);
+        goToNextScreen();
+        goToNextScreen();
+        goToNextScreen();
       }
-    );
+    } catch (error) {
+      console.log("onGameStart Error", error);
+    }
   }
 
   async function onBet() {
@@ -83,7 +78,7 @@ const Page = () => {
         abi: FLOW_POKER_OLD_ABI,
         address: FLOW_POKER_OLD_ADDRESS,
         functionName: "bet",
-        args: [105],
+        args: [100],
       },
       {
         onSuccess: (data) => {
@@ -122,9 +117,57 @@ const Page = () => {
     );
   }
 
+  async function onCheck() {
+    console.log("onCall");
+
+    const res = await writeContractAsync(
+      {
+        abi: FLOW_POKER_OLD_ABI,
+        address: FLOW_POKER_OLD_ADDRESS,
+        functionName: "check",
+      },
+      {
+        onSuccess: (data) => {
+          console.log("Success", data);
+        },
+        onSettled: (data) => {
+          console.log("Settled", data);
+        },
+        onError: (error) => {
+          console.log("Error", error);
+        },
+      }
+    );
+  }
+
+  async function onFold() {
+    console.log("fold");
+
+    const res = await writeContractAsync(
+      {
+        abi: FLOW_POKER_OLD_ABI,
+        address: FLOW_POKER_OLD_ADDRESS,
+        functionName: "check",
+      },
+      {
+        onSuccess: (data) => {
+          console.log("Success", data);
+        },
+        onSettled: (data) => {
+          console.log("Settled", data);
+        },
+        onError: (error) => {
+          console.log("Error", error);
+        },
+      }
+    );
+  }
+
   function onTest() {
     // onBet();
-    onCall();
+    // onCall();
+    // onCheck();
+    // onFold();
   }
 
   return (
