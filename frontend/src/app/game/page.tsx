@@ -360,7 +360,7 @@ const Page = () => {
               We're matching you with other players...
             </div>
             <UserData />
-            <DottedLine />
+            <DottedLine width={200} height={4} />
             <OpponentData />
           </div>
           <div>
@@ -381,7 +381,7 @@ const Page = () => {
               Your ape.ai plays against brain.ai
             </div>
             <UserData />
-            <DottedLine />
+            <DottedLine width={200} height={4} />
             <OpponentData />
           </div>
           {isPoolingStart ? (

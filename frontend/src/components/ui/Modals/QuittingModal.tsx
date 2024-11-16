@@ -25,10 +25,10 @@ export const QuittingModal = ({
         <div className="relative w-60 transform overflow-hidden rounded-xl bg-[#89BDB1] pt-3 text-center shadow-xl transition-all border border-black">
           <div className="flex flex-col items-center space-y-4">
             <h2 className="text-2xl font-medium font-abhaya text-gray-900">
-              You're quitting!
+              You&apos;re quitting!
             </h2>
             <p className="text-lg text-gray-900 font-abhaya">
-              You'll lose{" "}
+              You&apos;ll lose{" "}
               <span className="font-bold font-londrina">${amount}</span>
             </p>
 

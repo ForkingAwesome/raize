@@ -1,13 +1,25 @@
 "use client";
 
+import DottedLine from "@/components/ui/DottedLine";
+import Messages, { Message } from "@/components/ui/Message";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 const page = () => {
-  const [isChatEmpty, setChatEmpty] = useState(true);
+  const [isChatEmpty, setChatEmpty] = useState(false);
+  const [messages, setMessages] = useState<Array<Message>>([
+    { message: "Hey", self: false },
+    { message: "Hello!", self: true },
+    { message: "Nice game bruhhh", self: false },
+    { message: "Thanks!", self: true },
+    { message: "You should improve! lol", self: true },
+    { message: "You should improve! lol", self: true },
+    { message: "You should improve! lol", self: true },
+  ]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#89BDB1] items-center p-2 gap-10">
+    <div className="min-h-screen flex flex-col bg-[#89BDB1] items-center p-2 gap-6">
       <div className="flex flex-col">
         <div className="flex gap-32">
           <Image
@@ -31,51 +43,42 @@ const page = () => {
         </div>
       </div>
 
-      {isChatEmpty && (
-        <div className="flex flex-col gap-24">
-          <div className="flex flex-col items-center gap-4">
-            <div className="text-4xl font-abhaya">Did you know?</div>
-            <div className="text-center text-xl">
-              Your chances of winning are much higher with our{" "}
-              <span className="font-bold">ai agents</span>
-            </div>
-          </div>
-          <div className="flex flex-col items-center gap-4">
-            <button className="bg-[url('/loading_screen_button_bg.png')] bg-no-repeat bg-cover px-14 py-6 font-bold font-abhaya">
-              Play with brain.ai
-            </button>
-            <button className="bg-[url('/button_bg_2.png')] bg-no-repeat bg-cover px-16 py-6 font-bold font-abhaya">
-              Play yourself
-            </button>
-          </div>
-          <div className="">
-            <Image
-              src="/cards-illustration.png"
-              alt="cards"
-              width={400}
-              height={200}
-            />
-          </div>
+      <div className="font-bold font-abhaya text-4xl w-40">
+        Chat with @sarthak
+      </div>
+
+      {!isChatEmpty && (
+        <div className="flex flex-col gap-4">
+          <Messages messages={messages} />
+          <DottedLine width={380} height={2} />
         </div>
       )}
 
-      {!isChatEmpty && (
-        <div className="flex flex-col items-center gap-44">
-          <div className="flex flex-col gap-16 items-center">
-            <div className="text-2xl font-abhaya text-center w-64">
-              We're matching you with other players...
-            </div>
-          </div>
-          <div>
-            <Image
-              src="/searching_button.png"
-              alt="searching"
-              width="200"
-              height="75"
-            />
-          </div>
+      <div className="flex flex-col items-center gap-4">
+        <textarea
+          className="font-abhaya border border-black bg-white rounded-xl p-2 w-96 h-28"
+          placeholder="Type a message..."
+        />
+        <div className="bg-[#EDFF7C] border border-black font-abhaya rounded-full p-2 text-center text-lg w-96">
+          <button className="font-abhaya">Send</button>
         </div>
-      )}
+      </div>
+
+      <div>
+        <div className="flex gap-80">
+          <button>
+            <Link href={"/game"}>
+              <Image
+                src="/exit_button.png"
+                alt="Exit Button"
+                width="48"
+                height="36"
+              />
+            </Link>
+          </button>
+          <div></div>
+        </div>
+      </div>
     </div>
   );
 };

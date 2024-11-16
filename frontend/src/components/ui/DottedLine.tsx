@@ -1,9 +1,19 @@
 import Image from "next/image";
 
-const DottedLine = () => {
+interface Props {
+  width: number;
+  height: number;
+}
+
+const DottedLine = ({ width, height }: Props) => {
   return (
     <div>
-      <Image src="/dotted_line.png" alt="dotted_line" width={200} height={4} />
+      <Image
+        src="/dotted_line.png"
+        alt="dotted_line"
+        width={width}
+        height={height}
+      />
     </div>
   );
 };
