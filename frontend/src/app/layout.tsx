@@ -5,7 +5,7 @@ import { getLocale } from "next-intl/server";
 import { Root } from "@/components/Root/Root";
 import { I18nProvider } from "@/core/i18n/provider";
 import { Abhaya_Libre } from "next/font/google";
-import { WagmiProvider } from "wagmi";
+// import { WagmiProvider } from "wagmi";
 import { Londrina_Solid } from "next/font/google";
 
 import "./_assets/globals.css";

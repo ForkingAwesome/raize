@@ -1,6 +1,7 @@
 "use client";
 
 import DottedLine from "@/components/ui/DottedLine";
+import Opponent from "@/components/ui/Game/Opponent";
 import OpponentData from "@/components/ui/GameMatching/OpponentData";
 import SendButton from "@/components/ui/GameMatching/SendButton";
 import UserData from "@/components/ui/GameMatching/UserData";
@@ -8,9 +9,10 @@ import Image from "next/image";
 import { useState } from "react";
 
 const page = () => {
-  const [currentScreen, setCurrentScreen] = useState(2);
+  const [currentScreen, setCurrentScreen] = useState(3);
   const [isPoolingStart, setPoolingStart] = useState(true);
   const [isSmallBind, setSmallBind] = useState(true);
+  const [isGameStarted, setGameStarted] = useState(false);
 
   const goToNextScreen = () => {
     setCurrentScreen((prevScreen) => (prevScreen + 1) % 4);
@@ -103,6 +105,26 @@ const page = () => {
               />
             </div>
           )}
+        </div>
+      )}
+      {currentScreen === 3 && (
+        <div className="flex flex-col gap-10">
+          {/* <div className="flex flex-row">
+            <Image
+              src="/nft_profile_user.svg"
+              alt="Profile"
+              width={24}
+              height={24}
+            />
+            <Image
+              src="/annotation_star.svg"
+              alt="Profile"
+              width={24}
+              height={24}
+            />
+          </div> */}
+          <div className="font-abhaya text-4xl">brain.ai called!</div>
+          <Opponent />
         </div>
       )}
     </div>
