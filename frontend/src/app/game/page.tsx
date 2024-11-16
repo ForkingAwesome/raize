@@ -16,6 +16,8 @@ import {
   FLOW_POKER_OLD_ABI,
   FLOW_POKER_OLD_ADDRESS,
 } from "@/lib/flow-abi";
+import { QuittingModal } from "@/components/ui/Modals/QuittingModal";
+import { WinningModal } from "@/components/ui/Modals/WinningModal";
 
 const Page = () => {
   const [currentScreen, setCurrentScreen] = useState(0);
@@ -38,6 +40,9 @@ const Page = () => {
     "9,club",
     "ace,spades",
   ]);
+
+  const [isQuittingModalOpen, setQuittingModalOpen] = useState(false);
+  const [isWinningModalOpen, setWinningModalOpen] = useState(false);
 
   const goToNextScreen = () => {
     setCurrentScreen((prevScreen) => (prevScreen + 1) % 4);
@@ -135,6 +140,23 @@ const Page = () => {
         </h1>
         <Image src="/star.png" width="8" height="17" alt="star"></Image>
       </div>
+      <button onClick={() => setQuittingModalOpen(true)}>
+        Open Quitting Modal
+      </button>
+      <button onClick={() => setWinningModalOpen(true)}>
+        Open Winning Modal
+      </button>
+
+      <QuittingModal
+        isOpen={isQuittingModalOpen}
+        onClose={() => setQuittingModalOpen(false)}
+        amount={10}
+      ></QuittingModal>
+
+      <WinningModal
+        isOpen={isWinningModalOpen}
+        onClose={() => setWinningModalOpen(false)}
+      ></WinningModal>
 
       {currentScreen === 0 && (
         <div className="flex flex-col gap-24">
