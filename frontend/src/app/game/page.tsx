@@ -49,7 +49,7 @@ const Page = () => {
   }, [data, error]);
 
   async function onGameStart() {
-    console.log("Hello");
+    console.log("onGameStart");
 
     const res = await writeContractAsync(
       {
@@ -75,15 +75,15 @@ const Page = () => {
     );
   }
 
-  async function onCall() {
-    console.log("Hello");
+  async function onBet() {
+    console.log("onBet");
 
     const res = await writeContractAsync(
       {
         abi: FLOW_POKER_OLD_ABI,
         address: FLOW_POKER_OLD_ADDRESS,
-        functionName: "call",
-        args: [],
+        functionName: "bet",
+        args: [105],
       },
       {
         onSuccess: (data) => {
@@ -91,15 +91,40 @@ const Page = () => {
         },
         onSettled: (data) => {
           console.log("Settled", data);
-          goToNextScreen();
-          goToNextScreen();
-          goToNextScreen();
         },
         onError: (error) => {
           console.log("Error", error);
         },
       }
     );
+  }
+
+  async function onCall() {
+    console.log("onCall");
+
+    const res = await writeContractAsync(
+      {
+        abi: FLOW_POKER_OLD_ABI,
+        address: FLOW_POKER_OLD_ADDRESS,
+        functionName: "call",
+      },
+      {
+        onSuccess: (data) => {
+          console.log("Success", data);
+        },
+        onSettled: (data) => {
+          console.log("Settled", data);
+        },
+        onError: (error) => {
+          console.log("Error", error);
+        },
+      }
+    );
+  }
+
+  function onTest() {
+    // onBet();
+    onCall();
   }
 
   return (
@@ -212,6 +237,7 @@ const Page = () => {
             />
           </div> */}
           <div className="font-abhaya text-4xl">brain.ai called!</div>
+          <button onClick={onTest}>Test</button>
           <Opponent />
           <CurrentCards
             card1={cardStates[0]}
