@@ -12,6 +12,12 @@ import {
 } from "viem/chains";
 import { http } from "viem";
 
+declare module "wagmi" {
+  interface Register {
+    config: typeof wagmiConfig;
+  }
+}
+
 export const wagmiConfig = createConfig({
   multiInjectedProviderDiscovery: false,
   chains: [
