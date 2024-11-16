@@ -18,6 +18,7 @@ import {
 } from "@/lib/flow-abi";
 import { QuittingModal } from "@/components/ui/Modals/QuittingModal";
 import { WinningModal } from "@/components/ui/Modals/WinningModal";
+import { getCardImage } from "@/lib/utils";
 
 export type PlayerData = {
   address: string;
@@ -411,7 +412,12 @@ const Page = () => {
             card4={cardStates[3]}
             card5={cardStates[4]}
           />
-          <User card1={userCards[0]} card2={userCards[1]} />
+          {player1Parsed && (
+            <User
+              card1={`${player1Parsed?.hand0.rank},${player1Parsed?.hand0.suit}`}
+              card2={`${player1Parsed?.hand1.rank},${player1Parsed?.hand1.suit}`}
+            />
+          )}
           <div className="flex gap-48">
             <button>
               <Image

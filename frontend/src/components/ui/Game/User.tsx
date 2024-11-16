@@ -1,8 +1,8 @@
 import Image from "next/image";
 
 interface Props {
-  card1: null | string;
-  card2: null | string;
+  card1: null | string | undefined;
+  card2: null | string | undefined;
 }
 
 const User = ({ card1, card2 }: Props) => {
@@ -11,8 +11,8 @@ const User = ({ card1, card2 }: Props) => {
       <div className="flex flex-row">
         {card1 ? (
           <div className="transform -rotate-12">
-            <Image
-              src={"/cards/" + card1 + ".png"}
+            <img
+              src={"/cards/" + card1?.toLowerCase() + ".png"}
               alt="Card"
               width={53}
               height={73}
@@ -28,6 +28,7 @@ const User = ({ card1, card2 }: Props) => {
             />
           </div>
         )}
+
         {card2 ? (
           <div className="transform rotate-12">
             <Image
