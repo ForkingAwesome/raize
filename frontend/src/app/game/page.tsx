@@ -280,11 +280,27 @@ const Page = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#89BDB1] items-center p-2 gap-10">
-      <div className="flex flex-row items-center justify-center">
-        <h1 className="text-xl font-abhaya mb-2">
-          R<span className="text-[#EDFF7C]">ai</span>ze
-        </h1>
-        <Image src="/star.png" width="8" height="17" alt="star"></Image>
+      <div className="flex flex-col">
+        <div className="flex gap-32">
+          <Image
+            src="/nft_profile_user.svg"
+            alt="Profile"
+            width={30}
+            height={30}
+          />
+          <div className="flex flex-row items-center justify-center">
+            <h1 className="text-xl font-abhaya mb-2">
+              R<span className="text-[#EDFF7C]">ai</span>ze
+            </h1>
+            <Image src="/star.png" width="8" height="17" alt="star"></Image>
+          </div>
+          <Image
+            src="/annotation_star_yellow.svg"
+            alt="Profile"
+            width={30}
+            height={30}
+          />
+        </div>
       </div>
 
       <QuittingModal
