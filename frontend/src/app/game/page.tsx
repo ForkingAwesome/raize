@@ -54,6 +54,33 @@ const Page = () => {
     functionName: "gameState",
   });
 
+  const { data: dealerCards, refetch: refetchDealerCards } = useReadContract({
+    abi: FLOW_POKER_OLD_ABI,
+    address: FLOW_POKER_OLD_ADDRESS,
+    functionName: "getDealerCommunityCards",
+  });
+
+  const { data: visibleCommunityCards, refetch: refetchVisibleCommunityCards } =
+    useReadContract({
+      abi: FLOW_POKER_OLD_ABI,
+      address: FLOW_POKER_OLD_ADDRESS,
+      functionName: "getVisibleCommunityCards",
+    });
+
+  const { data: communityCards, refetch: refetchCommunityCards } =
+    useReadContract({
+      abi: FLOW_POKER_OLD_ABI,
+      address: FLOW_POKER_OLD_ADDRESS,
+      functionName: "getCommunityCardsByStage",
+    });
+
+  console.log(
+    "dealerCards",
+    dealerCards,
+    visibleCommunityCards,
+    communityCards
+  );
+
   const { data: currentPlayer, refetch: setCurrentPlayer } = useReadContract({
     abi: FLOW_POKER_OLD_ABI,
     address: FLOW_POKER_OLD_ADDRESS,

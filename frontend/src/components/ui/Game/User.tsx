@@ -11,7 +11,7 @@ const User = ({ card1, card2 }: Props) => {
       <div className="flex flex-row">
         {card1 ? (
           <div className="transform -rotate-12">
-            <img
+            <Image
               src={"/cards/" + card1?.toLowerCase() + ".png"}
               alt="Card"
               width={53}
