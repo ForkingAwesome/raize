@@ -5,10 +5,12 @@ import { getLocale } from "next-intl/server";
 import { Root } from "@/components/Root/Root";
 import { I18nProvider } from "@/core/i18n/provider";
 import { Abhaya_Libre } from "next/font/google";
+import { WagmiProvider } from "wagmi";
 import { Londrina_Solid } from "next/font/google";
 
 import "./_assets/globals.css";
 import "normalize.css";
+import { Providers } from "./providers";
 
 const AbhayaLibre = Abhaya_Libre({
   subsets: ["latin"],
@@ -35,7 +37,9 @@ export default async function RootLayout({ children }: PropsWithChildren) {
     <html lang={locale}>
       <body className={`${AbhayaLibre.variable} ${londrina.variable}`}>
         <I18nProvider>
-          <Root>{children}</Root>
+          <Providers>
+            <Root>{children}</Root>
+          </Providers>
         </I18nProvider>
       </body>
     </html>
