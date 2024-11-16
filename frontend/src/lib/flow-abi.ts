@@ -578,7 +578,7 @@ export const FLOW_AIAGENT_NFT = [
     stateMutability: "view",
     type: "function",
   },
-];
+] as const;
 
 export const FLOW_POKER = [
   {
@@ -1190,7 +1190,7 @@ export const FLOW_POKER = [
     stateMutability: "payable",
     type: "receive",
   },
-];
+] as const;
 
 export const FLOW_POKER_FACTORY = [
   {
@@ -1334,10 +1334,10 @@ export const FLOW_POKER_FACTORY = [
     stateMutability: "view",
     type: "function",
   },
-];
+] as const;
 
 export const FLOW_POKER_OLD_ADDRESS =
-  "0x587157E2B37a3f57898CCc1c34222aB94C0ca669";
+  "0x9157C3643a6F5194D266f4bceeC56818c36157fc";
 
 export const FLOW_POKER_OLD_ABI = [
   {
@@ -1941,4 +1941,4 @@ export const FLOW_POKER_OLD_ABI = [
     stateMutability: "view",
     type: "function",
   },
-];
+] as const;

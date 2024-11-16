@@ -9,7 +9,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import CurrentCards from "../../components/ui/Game/CurrentCards";
 import User from "@/components/ui/Game/User";
-import { useAccount, useWriteContract } from "wagmi";
+import { useAccount, useReadContract, useWriteContract } from "wagmi";
 import {
   FLOW_POKER_FACTORY,
   FLOW_POKER_FACTORY_ADDRESS,
@@ -19,12 +19,64 @@ import {
 import { QuittingModal } from "@/components/ui/Modals/QuittingModal";
 import { WinningModal } from "@/components/ui/Modals/WinningModal";
 
+export type PlayerData = {
+  address: string;
+  pot: BigInt;
+  hand0: {
+    rank: string;
+    suit: string;
+  };
+  hand1: {
+    rank: string;
+    suit: string;
+  };
+  hadFolded: boolean;
+  hasRevealed: boolean;
+  currentBet: BigInt;
+  totalBet: BigInt;
+};
+
 const Page = () => {
-  const [currentScreen, setCurrentScreen] = useState(0);
+  const [currentScreen, setCurrentScreen] = useState(3);
   const [loading, setLoading] = useState(false);
   const { address } = useAccount();
 
+  const [player1Parsed, setPlayer1Parsed] = useState<PlayerData | null>(null);
+  const [player2Parsed, setPlayer2Parsed] = useState<PlayerData | null>(null);
+
   const { writeContractAsync, data, error } = useWriteContract();
+
+  const { data: gameState, refetch: refetchGameState } = useReadContract({
+    abi: FLOW_POKER_OLD_ABI,
+    address: FLOW_POKER_OLD_ADDRESS,
+    functionName: "gameState",
+  });
+
+  const { data: currentPlayer, refetch: setCurrentPlayer } = useReadContract({
+    abi: FLOW_POKER_OLD_ABI,
+    address: FLOW_POKER_OLD_ADDRESS,
+    functionName: "currentPlayer",
+  });
+
+  const isMyTurn = currentPlayer === address;
+
+  const { data: player1, refetch: refetchPlayer1 } = useReadContract({
+    abi: FLOW_POKER_OLD_ABI,
+    address: FLOW_POKER_OLD_ADDRESS,
+    functionName: "player1",
+  });
+
+  const { data: player2, refetch: refetchPlayer2 } = useReadContract({
+    abi: FLOW_POKER_OLD_ABI,
+    address: FLOW_POKER_OLD_ADDRESS,
+    functionName: "player2",
+  });
+
+  const { data: currentBet, refetch: setCurrentBet } = useReadContract({
+    abi: FLOW_POKER_OLD_ABI,
+    address: FLOW_POKER_OLD_ADDRESS,
+    functionName: "currentBet",
+  });
 
   const [isPoolingStart, setPoolingStart] = useState(true);
   const [isSmallBind, setSmallBind] = useState(true);
@@ -49,35 +101,78 @@ const Page = () => {
   };
 
   useEffect(() => {
-    console.log(data);
-    console.log(error);
-  }, [data, error]);
+    console.log("readData");
+    console.log(gameState);
+  }, [gameState]);
+
+  useEffect(() => {
+    if (!player1) return;
+
+    const data = {
+      address: player1[0],
+      pot: BigInt(player1[1]),
+      hand0: {
+        rank: player1[2].rank,
+        suit: player1[2].suit,
+      },
+      hand1: {
+        rank: player1[3].rank,
+        suit: player1[3].suit,
+      },
+      hadFolded: player1[4],
+      hasRevealed: player1[5],
+      currentBet: player1[6],
+      totalBet: player1[7],
+    };
+
+    setPlayer1Parsed(data);
+    console.log("player1", data);
+  }, [player1]);
+
+  useEffect(() => {
+    if (!player2) return;
+
+    const data = {
+      address: player2[0],
+      pot: BigInt(player2[1]),
+      hand0: {
+        rank: player2[2].rank,
+        suit: player2[2].suit,
+      },
+      hand1: {
+        rank: player2[3].rank,
+        suit: player2[3].suit,
+      },
+      hadFolded: player2[4],
+      hasRevealed: player2[5],
+      currentBet: player2[6],
+      totalBet: player2[7],
+    };
+
+    setPlayer2Parsed(data);
+    console.log("player2", data);
+  }, [player2]);
 
   async function onGameStart() {
-    console.log("onGameStart");
+    try {
+      console.log("onGameStart");
 
-    const res = await writeContractAsync(
-      {
+      const res = await writeContractAsync({
         abi: FLOW_POKER_OLD_ABI,
         address: FLOW_POKER_OLD_ADDRESS,
         functionName: "startGame",
         args: [],
-      },
-      {
-        onSuccess: (data) => {
-          console.log("Success", data);
-        },
-        onSettled: (data) => {
-          console.log("Settled", data);
-          goToNextScreen();
-          goToNextScreen();
-          goToNextScreen();
-        },
-        onError: (error) => {
-          console.log("Error", error);
-        },
+      });
+
+      if (res) {
+        console.log("Settled", data);
+        goToNextScreen();
+        goToNextScreen();
+        goToNextScreen();
       }
-    );
+    } catch (error) {
+      console.log("onGameStart Error", error);
+    }
   }
 
   async function onBet() {
@@ -88,7 +183,7 @@ const Page = () => {
         abi: FLOW_POKER_OLD_ABI,
         address: FLOW_POKER_OLD_ADDRESS,
         functionName: "bet",
-        args: [105],
+        args: [100],
       },
       {
         onSuccess: (data) => {
@@ -127,9 +222,57 @@ const Page = () => {
     );
   }
 
+  async function onCheck() {
+    console.log("onCall");
+
+    const res = await writeContractAsync(
+      {
+        abi: FLOW_POKER_OLD_ABI,
+        address: FLOW_POKER_OLD_ADDRESS,
+        functionName: "check",
+      },
+      {
+        onSuccess: (data) => {
+          console.log("Success", data);
+        },
+        onSettled: (data) => {
+          console.log("Settled", data);
+        },
+        onError: (error) => {
+          console.log("Error", error);
+        },
+      }
+    );
+  }
+
+  async function onFold() {
+    console.log("fold");
+
+    const res = await writeContractAsync(
+      {
+        abi: FLOW_POKER_OLD_ABI,
+        address: FLOW_POKER_OLD_ADDRESS,
+        functionName: "check",
+      },
+      {
+        onSuccess: (data) => {
+          console.log("Success", data);
+        },
+        onSettled: (data) => {
+          console.log("Settled", data);
+        },
+        onError: (error) => {
+          console.log("Error", error);
+        },
+      }
+    );
+  }
+
   function onTest() {
     // onBet();
-    onCall();
+    // onCall();
+    // onCheck();
+    // onFold();
   }
 
   return (
