@@ -72,10 +72,10 @@ export class AiAgentService {
         model: 'gpt-4o',
         // response_format: 'json_object',
         messages: [
-          //   {
-          //     role: 'system',
-          //     content: systemInstructions,
-          //   },
+          {
+            role: 'system',
+            content: systemInstructions,
+          },
           {
             role: 'user',
             content: `Answer in just JSON
@@ -85,19 +85,23 @@ export class AiAgentService {
         ],
       });
 
-      const x = JSON.parse(
-        (res.data.choices[0].message.content as string).slice(7).slice(0, -3),
-      );
-      console.log(x);
+      console.log(JSON.parse(res.data.choices[0].message.content));
 
-      return x;
+      return res.data;
+
+      //   const x = JSON.parse(
+      //     (res.data.choices[0].message.content as string).slice(7).slice(0, -3),
+      //   );
+      //   console.log(x);
+
+      //   return x;
     } catch (e: any) {
       const error: AxiosError = e;
 
-      console.log(error);
+      //   console.log(error.response.data);
 
-      //   console.log(error.toJSON());
-      //   console.log(error.request._header);
+      console.log(error);
+      // console.log(error.request._header);
     }
 
     return 'Test';
