@@ -6,9 +6,11 @@ import Image from "next/image";
 import CardsAndChips from "@/components/ui/CardsAndChips";
 import { motion } from "framer-motion";
 import Traits from "@/components/ui/Traits";
+import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
 
 export default function Home() {
   const [currentScreen, setCurrentScreen] = useState(0);
+  const { setShowAuthFlow } = useDynamicContext();
 
   const goToNextScreen = () => {
     setCurrentScreen((prevScreen) => (prevScreen + 1) % 3);
@@ -75,7 +77,7 @@ export default function Home() {
             <Traits />
             <button
               className="bg-[url('/loading_screen_button_bg.png')] bg-no-repeat bg-cover px-14 py-5 font-bold font-abhaya"
-              onClick={goToNextScreen}
+              onClick={() => setShowAuthFlow(true)}
             >
               Login to play
             </button>
