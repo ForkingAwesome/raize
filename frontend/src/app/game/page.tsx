@@ -18,6 +18,7 @@ import {
 } from "@/lib/flow-abi";
 import { QuittingModal } from "@/components/ui/Modals/QuittingModal";
 import { WinningModal } from "@/components/ui/Modals/WinningModal";
+import { LosingModal } from "@/components/ui/Modals/LosingModal";
 
 export type PlayerData = {
   address: string;
@@ -95,6 +96,7 @@ const Page = () => {
 
   const [isQuittingModalOpen, setQuittingModalOpen] = useState(false);
   const [isWinningModalOpen, setWinningModalOpen] = useState(false);
+  const [isLosingModalOpen, setLosingModalOpen] = useState(false);
 
   const goToNextScreen = () => {
     setCurrentScreen((prevScreen) => (prevScreen + 1) % 4);
@@ -283,12 +285,6 @@ const Page = () => {
         </h1>
         <Image src="/star.png" width="8" height="17" alt="star"></Image>
       </div>
-      <button onClick={() => setQuittingModalOpen(true)}>
-        Open Quitting Modal
-      </button>
-      <button onClick={() => setWinningModalOpen(true)}>
-        Open Winning Modal
-      </button>
 
       <QuittingModal
         isOpen={isQuittingModalOpen}
@@ -300,6 +296,11 @@ const Page = () => {
         isOpen={isWinningModalOpen}
         onClose={() => setWinningModalOpen(false)}
       ></WinningModal>
+
+      <LosingModal
+        isOpen={isLosingModalOpen}
+        onClose={() => setLosingModalOpen(false)}
+      ></LosingModal>
 
       {currentScreen === 0 && (
         <div className="flex flex-col gap-24">

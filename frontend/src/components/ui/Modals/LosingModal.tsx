@@ -2,12 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-interface WinningModalProps {
+interface LosingModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export const WinningModal = ({ isOpen, onClose }: WinningModalProps) => {
+export const LosingModal = ({ isOpen, onClose }: LosingModalProps) => {
   if (!isOpen) return null;
 
   return (
@@ -22,12 +22,8 @@ export const WinningModal = ({ isOpen, onClose }: WinningModalProps) => {
           <div className="flex flex-col items-center gap-10">
             <div className="flex flex-col mb-6">
               <h2 className="text-3xl font-medium font-abhaya text-gray-900">
-                You win!
+                You lose :{"("}
               </h2>
-              <p className="text-xl text-gray-900 font-abhaya">
-                brain.ai flipped{" "}
-                <span className="font-bold font-londrina">2x</span>
-              </p>
             </div>
             <div className="flex flex-col gap-2">
               <button
