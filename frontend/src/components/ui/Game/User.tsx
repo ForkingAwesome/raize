@@ -13,7 +13,7 @@ const User = ({ card1, card2 }: Props) => {
           <div className="transform -rotate-12">
             <Image
               src={"/cards/" + card1?.toLowerCase() + ".png"}
-              alt="Card"
+              alt={card1}
               width={53}
               height={73}
             />
@@ -33,7 +33,7 @@ const User = ({ card1, card2 }: Props) => {
           <div className="transform rotate-12">
             <Image
               src={"/cards/" + card2 + ".png"}
-              alt="Card"
+              alt={card2}
               width={53}
               height={73}
             />

@@ -38,10 +38,21 @@ export type PlayerData = {
   totalBet: BigInt;
 };
 
+export type GameState =
+  | "Waiting"
+  | "PreFlop"
+  | "Flop"
+  | "Turn"
+  | "River"
+  | "Showdown";
+
 const Page = () => {
   const [currentScreen, setCurrentScreen] = useState(3);
   const [loading, setLoading] = useState(false);
   const { address } = useAccount();
+
+  const [currentGameState, setCurrentGameState] =
+    useState<GameState>("PreFlop");
 
   const [player1Parsed, setPlayer1Parsed] = useState<PlayerData | null>(null);
   const [player2Parsed, setPlayer2Parsed] = useState<PlayerData | null>(null);
@@ -81,11 +92,12 @@ const Page = () => {
     communityCards
   );
 
-  const { data: currentPlayer, refetch: setCurrentPlayer } = useReadContract({
-    abi: FLOW_POKER_OLD_ABI,
-    address: FLOW_POKER_OLD_ADDRESS,
-    functionName: "currentPlayer",
-  });
+  const { data: currentPlayer, refetch: refetchCurrentPlayer } =
+    useReadContract({
+      abi: FLOW_POKER_OLD_ABI,
+      address: FLOW_POKER_OLD_ADDRESS,
+      functionName: "currentPlayer",
+    });
 
   const isMyTurn = currentPlayer === address;
 
@@ -298,6 +310,74 @@ const Page = () => {
     );
   }
 
+  async function refetchAll() {
+    refetchCurrentPlayer();
+    refetchGameState();
+    refetchPlayer1();
+    refetchPlayer2();
+  }
+
+  useEffect(() => {
+    refetchAll();
+
+    /*
+
+    PreFlop
+    - Check if it's my turn, then ask to bet
+    - If not, wait for opponent and keep refreshing
+    - Transition to Flop
+
+    Flop
+    - Repeat the same as PreFlop
+    - And reveal the first 3 cards
+    - Check, bet, call, fold
+    - Transition to Turn
+
+    Turn
+    - Third betting round
+    - 4th card reveal
+    - same as Flop
+    - Transition to River
+
+    River
+    - Fourth betting round
+    - 5th card reveal
+    - same as Flop
+
+    Showdown
+    - game complete
+    - player cards revealed
+    - winner declared
+
+    */
+
+    if (currentGameState === "PreFlop") {
+    } else if (currentGameState === "Flop") {
+    } else if (currentGameState === "Turn") {
+    } else if (currentGameState === "River") {
+    } else if (currentGameState === "Showdown") {
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentGameState]);
+
+  function getMessage(gameState: GameState) {
+    switch (gameState) {
+      case "Waiting":
+        return "Waiting for players to join";
+      case "PreFlop":
+        return isMyTurn ? "Please place your bet" : "Waiting for opponent";
+      case "Flop":
+        return "Flop";
+      case "Turn":
+        return "Turn";
+      case "River":
+        return "River";
+      case "Showdown":
+        return "Showdown";
+    }
+  }
+
   function onTest() {
     // onBet();
     // onCall();
@@ -448,6 +528,7 @@ const Page = () => {
           </div> */}
           <div className="font-abhaya text-4xl">brain.ai called!</div>
           <button onClick={onTest}>Test</button>
+          <p>{getMessage(currentGameState)}</p>
           <Opponent />
           <CurrentCards
             card1={cardStates[0]}
