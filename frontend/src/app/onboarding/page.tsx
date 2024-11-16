@@ -7,6 +7,7 @@ import CardsAndChips from "@/components/ui/CardsAndChips";
 import { motion } from "framer-motion";
 import Traits from "@/components/ui/Traits";
 import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
+import { IDKitWidget, VerificationLevel } from "@worldcoin/idkit";
 
 export default function Home() {
   const [currentScreen, setCurrentScreen] = useState(0);
@@ -76,12 +77,20 @@ export default function Home() {
               height={300}
             />
             <Traits />
-            <button
-              className="bg-[url('/loading_screen_button_bg.png')] bg-no-repeat bg-cover px-14 py-5 font-bold font-abhaya"
-              onClick={() => setShowAuthFlow(true)}
-            >
-              Login to play
-            </button>
+            <div className="bg-[url('/loading_screen_button_bg.png')] bg-no-repeat bg-cover px-14 py-5 font-bold font-abhaya">
+              <IDKitWidget
+                app_id="app_3f2f7ef71f2d15331a98fde125fecefb" // obtained from the Developer Portal
+                action="verify" // this is your action id from the Developer Portal
+                onSuccess={() => {
+                  console.log("Done");
+                }}
+                verification_level={VerificationLevel.Device}
+              >
+                {({ open }) => (
+                  <button onClick={open}>Verify with World ID</button>
+                )}
+              </IDKitWidget>
+            </div>
           </div>
         )}
       </div>
