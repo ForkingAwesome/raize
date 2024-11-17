@@ -137,7 +137,7 @@ export default function Home() {
         {currentScreen === 2 && (
           <div className="flex flex-col items-center gap-4">
             <h2 className="text-2xl font-abhaya mb-4">
-              Woah! You minted <span className="font-bold">Sarthak</span>
+              Woah! You minted <span className="font-bold">ape.ai</span>
             </h2>
             <Image
               src="/minted_nft_1.png"
