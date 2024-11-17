@@ -25,7 +25,7 @@ export function Providers({ children }: { children: ReactNode }) {
       <WagmiProvider config={wagmiConfig}>
         <QueryClientProvider client={queryClient}>
           <DynamicWagmiConnector>
-            <DynamicWidget />
+            {/* <DynamicWidget /> */}
             {children}
           </DynamicWagmiConnector>
         </QueryClientProvider>
