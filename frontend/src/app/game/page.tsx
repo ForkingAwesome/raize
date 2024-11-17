@@ -47,7 +47,7 @@ export type GameState =
   | "Showdown";
 
 const Page = () => {
-  const [currentScreen, setCurrentScreen] = useState(2);
+  const [currentScreen, setCurrentScreen] = useState(0);
   const [loading, setLoading] = useState(false);
   const [helperText, setHelperText] = useState("brain.ai called!");
   const { address } = useAccount();
