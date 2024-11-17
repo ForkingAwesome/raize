@@ -329,7 +329,7 @@ const Page = () => {
 
     if (currentGameState === "PreFlop") {
       if (isMyTurn) {
-        await onBet(100n);
+        await onBet(BigInt(100));
         console.log("sssasds");
       } else {
         setHelperText("Waiting for opponent to bet");
@@ -339,7 +339,7 @@ const Page = () => {
       console.log("currentGameState", currentGameState);
     } else if (currentGameState === "Flop") {
       if (isMyTurn) {
-        await onBet(350n);
+        await onBet(BigInt(350));
       } else {
         setHelperText("Waiting for opponent to bet");
       }
@@ -350,7 +350,7 @@ const Page = () => {
       setCurrentGameState("Turn");
     } else if (currentGameState === "Turn") {
       if (isMyTurn) {
-        await onBet(450n);
+        await onBet(BigInt(450));
       } else {
         //  Wait for player1 to bet
         setHelperText("Waiting for opponent to bet");
@@ -363,7 +363,7 @@ const Page = () => {
     } else if (currentGameState === "River") {
       if (isMyTurn) {
         // Ask player1 to bet
-        await onBet(600n);
+        await onBet(BigInt(600));
       } else {
         //  Wait for player1 to bet
         setHelperText("Waiting for opponent to bet");

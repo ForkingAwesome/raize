@@ -38,7 +38,7 @@ export default function Home() {
     }, 2000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [images.length]);
 
   return (
     <Page back={true}>
