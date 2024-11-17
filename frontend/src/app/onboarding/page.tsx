@@ -45,7 +45,9 @@ export default function Home() {
       <div className="min-h-screen bg-[#89BDB1] flex flex-col items-center">
         <div className="text-center mb-12">
           <div className="flex flex-row items-center justify-center">
-            <h1 className="text-6xl font-abhaya mb-2">Raize</h1>
+            <h1 className="text-6xl font-abhaya mb-2">
+              R<span className="text-[#EDFF7C]">ai</span>ze
+            </h1>
             <Image src="/star.png" width="17" height="17" alt="star"></Image>
           </div>
           <p className="text-xl text-gray-700 font-abhaya">
@@ -134,11 +136,11 @@ export default function Home() {
 
         {currentScreen === 2 && (
           <div className="flex flex-col items-center gap-4">
-            <h2 className="text-2xl font-bold mb-4">
-              Woah! You minted Sarthak
+            <h2 className="text-2xl font-abhaya mb-4">
+              Woah! You minted <span className="font-bold">Sarthak</span>
             </h2>
             <Image
-              src="/minted_card.png"
+              src="/minted_nft_1.png"
               alt="Minted agent"
               width={200}
               height={300}

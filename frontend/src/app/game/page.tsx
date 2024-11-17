@@ -47,7 +47,7 @@ export type GameState =
   | "Showdown";
 
 const Page = () => {
-  const [currentScreen, setCurrentScreen] = useState(3);
+  const [currentScreen, setCurrentScreen] = useState(2);
   const [loading, setLoading] = useState(false);
   const [helperText, setHelperText] = useState("brain.ai called!");
   const { address } = useAccount();
@@ -452,14 +452,14 @@ const Page = () => {
         <div className="flex flex-col gap-24">
           <div className="flex flex-col items-center gap-4">
             <div className="text-4xl font-abhaya">Did you know?</div>
-            <div className="text-center text-xl">
+            <div className="text-center text-xl font-abhaya">
               Your chances of winning are much higher with our{" "}
               <span className="font-bold">ai agents</span>
             </div>
           </div>
           <div className="flex flex-col items-center gap-4">
             <button
-              className="bg-[url('/loading_screen_button_bg.png')] bg-no-repeat bg-cover px-14 py-6 font-bold font-abhaya"
+              className="bg-[url('/loading_screen_button_bg.png')] bg-no-repeat bg-cover px-16 py-7 font-bold font-abhaya"
               onClick={onGameStart}
             >
               Play with brain.ai
@@ -514,11 +514,7 @@ const Page = () => {
             <OpponentData />
           </div>
           {isPoolingStart ? (
-            isSmallBind ? (
-              <SendButton smallBind={true} />
-            ) : (
-              <SendButton smallBind={false} />
-            )
+            <SendButton />
           ) : (
             <div>
               <Image
@@ -534,20 +530,6 @@ const Page = () => {
 
       {currentScreen === 3 && (
         <div className="flex flex-col gap-10 items-center">
-          {/* <div className="flex flex-row">
-            <Image
-              src="/nft_profile_user.svg"
-              alt="Profile"
-              width={24}
-              height={24}
-            />
-            <Image
-              src="/annotation_star.svg"
-              alt="Profile"
-              width={24}
-              height={24}
-            />
-          </div> */}
           <div className="font-abhaya text-4xl">{helperText}</div>
           <button onClick={onTest}>Test</button>
           <button onClick={refetchAll}>Refetch</button>
