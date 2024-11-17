@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-const Opponent = () => {
+const Opponent = ({ onClick }: { onClick?: () => void }) => {
   return (
     <div className="flex flex-col gap-4 items-center">
       <div className="relative inline-block">
@@ -11,7 +11,10 @@ const Opponent = () => {
           $0
         </div>
       </div>
-      <div className="bg-white border border-black border-1 rounded-full p-1.5">
+      <div
+        className="bg-white border border-black border-1 rounded-full p-1.5"
+        onClick={onClick}
+      >
         Opponent Name - AI NFT Name
       </div>
       <div>

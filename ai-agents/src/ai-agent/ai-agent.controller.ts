@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AiAgentService } from './ai-agent.service';
 
 @Controller('ai-agent')
@@ -10,8 +10,8 @@ export class AiAgentController {
     return this.aiAgentService.getRedpillResponse();
   }
 
-  @Get('/gen')
-  getHyperbolicResponse() {
-    return this.aiAgentService.getHyperbolicResponse();
+  @Post('/gen')
+  getHyperbolicResponse(@Body() body: { text: string }) {
+    return this.aiAgentService.getHyperbolicResponse(body?.text ?? '');
   }
 }

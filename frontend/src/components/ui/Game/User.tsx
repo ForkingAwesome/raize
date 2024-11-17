@@ -3,9 +3,10 @@ import Image from "next/image";
 interface Props {
   card1: null | string | undefined;
   card2: null | string | undefined;
+  onClick?: () => void;
 }
 
-const User = ({ card1, card2 }: Props) => {
+const User = ({ card1, card2, onClick }: Props) => {
   return (
     <div className="flex flex-col gap-4 items-center">
       <div className="flex flex-row">
@@ -57,7 +58,10 @@ const User = ({ card1, card2 }: Props) => {
           $0
         </div>
       </div>
-      <div className="bg-[#FF9DB7]  border border-black border-1 rounded-full p-1.5">
+      <div
+        className="bg-[#FF9DB7]  border border-black border-1 rounded-full p-1.5"
+        onClick={onClick}
+      >
         User Name - AI NFT Name
       </div>
     </div>
