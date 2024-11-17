@@ -54,8 +54,7 @@ const Page = () => {
 
   const [dealerCardShowNumber, setDealerCardShowNumber] = useState(0);
 
-  const [currentGameState, setCurrentGameState] =
-    useState<GameState>("PreFlop");
+  const [currentGameState, setCurrentGameState] = useState<GameState>("River");
 
   const [player1Parsed, setPlayer1Parsed] = useState<PlayerData | null>(null);
   const [player2Parsed, setPlayer2Parsed] = useState<PlayerData | null>(null);
@@ -126,9 +125,9 @@ const Page = () => {
   const [isSmallBind, setSmallBind] = useState(true);
   const [isGameStarted, setGameStarted] = useState(false);
   const [cardStates, setCardStates] = useState<Array<null | string>>([
-    "9,spades",
-    "king,club",
-    "ace,hearts",
+    null,
+    null,
+    null,
     null,
     null,
   ]);
@@ -316,14 +315,17 @@ const Page = () => {
   }
 
   async function refetchAll() {
+    console.log("refetech start");
     refetchCurrentPlayer();
     refetchGameState();
     refetchPlayer1();
     refetchPlayer2();
+    console.log("refetech complete");
   }
 
   const takeAction = async () => {
-    console.log(currentGameState);
+    console.log("currentGameState", currentGameState);
+    console.log("isMyTurn", isMyTurn);
 
     if (currentGameState === "PreFlop") {
       if (isMyTurn) {
@@ -334,9 +336,10 @@ const Page = () => {
       }
 
       setCurrentGameState("Flop");
+      console.log("currentGameState", currentGameState);
     } else if (currentGameState === "Flop") {
       if (isMyTurn) {
-        await onBet(200n);
+        await onBet(350n);
       } else {
         setHelperText("Waiting for opponent to bet");
       }
@@ -347,7 +350,7 @@ const Page = () => {
       setCurrentGameState("Turn");
     } else if (currentGameState === "Turn") {
       if (isMyTurn) {
-        await onBet(300n);
+        await onBet(450n);
       } else {
         //  Wait for player1 to bet
         setHelperText("Waiting for opponent to bet");
@@ -360,7 +363,7 @@ const Page = () => {
     } else if (currentGameState === "River") {
       if (isMyTurn) {
         // Ask player1 to bet
-        await onBet(400n);
+        await onBet(600n);
       } else {
         //  Wait for player1 to bet
         setHelperText("Waiting for opponent to bet");
@@ -547,6 +550,7 @@ const Page = () => {
           </div> */}
           <div className="font-abhaya text-4xl">{helperText}</div>
           <button onClick={onTest}>Test</button>
+          <button onClick={refetchAll}>Refetch</button>
           <p>{getMessage(currentGameState)}</p>
           <Opponent />
           <CurrentCards
