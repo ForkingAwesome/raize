@@ -488,7 +488,7 @@ const Page = () => {
             <div className="text-2xl font-abhaya text-center w-64">
               We&apos;re matching you with other players...
             </div>
-            <UserData />
+            <UserData onTest={onTest} />
             <DottedLine width={200} height={4} />
             <OpponentData />
           </div>
@@ -509,7 +509,7 @@ const Page = () => {
             <div className="text-2xl font-abhaya text-center w-64">
               Your ape.ai plays against brain.ai
             </div>
-            <UserData />
+            <UserData onTest={refetchAll} />
             <DottedLine width={200} height={4} />
             <OpponentData />
           </div>

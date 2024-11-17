@@ -1,8 +1,8 @@
 import Image from "next/image";
 
-const UserData = () => {
+const UserData = ({ onTest }: { onTest: () => void }) => {
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div className="flex flex-col items-center gap-2" onClick={onTest}>
       <div className="relative inline-block">
         <div>
           <Image src="/nft.png" alt="nft" width={44} height={44} />

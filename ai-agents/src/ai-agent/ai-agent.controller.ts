@@ -5,12 +5,12 @@ import { AiAgentService } from './ai-agent.service';
 export class AiAgentController {
   constructor(private readonly aiAgentService: AiAgentService) {}
 
-  @Get('/redpill')
+  @Get('/response')
   getRedpillcResponse() {
     return this.aiAgentService.getRedpillResponse();
   }
 
-  @Get('/hyperbolic')
+  @Get('/gen')
   getHyperbolicResponse() {
     return this.aiAgentService.getHyperbolicResponse();
   }
