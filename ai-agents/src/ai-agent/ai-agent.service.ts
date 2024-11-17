@@ -107,7 +107,7 @@ export class AiAgentService {
     return 'Test';
   }
 
-  async getHyperbolicResponse() {
+  async getHyperbolicResponse(text: string) {
     try {
       const res = await hyperbolicBase.post('', {
         model: 'meta-llama/Meta-Llama-3.1-405B-Instruct',
@@ -120,7 +120,12 @@ export class AiAgentService {
             role: 'user',
             content: `Answer in just JSON
               
-              I have a 5 and a Ace, The pot is 700, I have to call 100, the numbers released by dealear are 7, 8, 10. Play it risky`,
+              I have a 5 and a Ace, The pot is 700, I have to call 100, the numbers released by dealear are 7, 8, 10. Play it risky
+              
+              Additional context that overrides above ones -
+
+              ${text}
+              `,
           },
         ],
         stream: false,

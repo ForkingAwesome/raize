@@ -1337,7 +1337,7 @@ export const FLOW_POKER_FACTORY = [
 ] as const;
 
 export const FLOW_POKER_OLD_ADDRESS =
-  "0x87785Ed22fafF0A1C42340c126f5729d082c84Dc";
+  "0x72BfbF26EF8F371e3360388ED5B642fBfd824084";
 
 export const FLOW_POKER_OLD_ABI = [
   {

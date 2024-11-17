@@ -47,12 +47,18 @@ export type GameState =
   | "Showdown";
 
 const Page = () => {
-  const [currentScreen, setCurrentScreen] = useState(0);
+  const [currentScreen, setCurrentScreen] = useState(3);
   const [loading, setLoading] = useState(false);
-  const [helperText, setHelperText] = useState("brain.ai called!");
+  const [helperText, setHelperText] = useState("AI is raising the bet 🚀 ");
   const { address } = useAccount();
 
-  const [dealerCardShowNumber, setDealerCardShowNumber] = useState(0);
+  useEffect(() => {
+    setTimeout(() => {
+      setWinningModalOpen(true);
+    }, 3000);
+  }, []);
+
+  const [dealerCardShowNumber, setDealerCardShowNumber] = useState(4);
 
   const [currentGameState, setCurrentGameState] = useState<GameState>("River");
 
@@ -400,6 +406,8 @@ const Page = () => {
   }
 
   function onTest() {
+    console.log("test");
+
     // onBet();
     // onCall();
     // onCheck();
@@ -488,7 +496,7 @@ const Page = () => {
             <div className="text-2xl font-abhaya text-center w-64">
               We&apos;re matching you with other players...
             </div>
-            <UserData />
+            <UserData onTest={onTest} />
             <DottedLine width={200} height={4} />
             <OpponentData />
           </div>
@@ -509,7 +517,7 @@ const Page = () => {
             <div className="text-2xl font-abhaya text-center w-64">
               Your ape.ai plays against brain.ai
             </div>
-            <UserData />
+            <UserData onTest={refetchAll} />
             <DottedLine width={200} height={4} />
             <OpponentData />
           </div>
@@ -531,10 +539,10 @@ const Page = () => {
       {currentScreen === 3 && (
         <div className="flex flex-col gap-10 items-center">
           <div className="font-abhaya text-4xl">{helperText}</div>
-          <button onClick={onTest}>Test</button>
-          <button onClick={refetchAll}>Refetch</button>
-          <p>{getMessage(currentGameState)}</p>
-          <Opponent />
+          {/* <button onClick={onTest}>Test</button>
+          <button onClick={refetchAll}>Refetch</button> */}
+          {/* <p>{getMessage(currentGameState)}</p> */}
+          <Opponent onClick={onTest} />
           <CurrentCards
             card1={
               dealerCardShowNumber > 0
@@ -566,6 +574,7 @@ const Page = () => {
             <User
               card1={`${player1Parsed?.hand0.rank},${player1Parsed?.hand0.suit}`}
               card2={`${player1Parsed?.hand1.rank},${player1Parsed?.hand1.suit}`}
+              onClick={refetchAll}
             />
           )}
           <div className="flex gap-48">
