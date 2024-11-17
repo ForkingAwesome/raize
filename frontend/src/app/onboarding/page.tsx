@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Page } from "@/components/Page";
 import Image from "next/image";
 import CardsAndChips from "@/components/ui/CardsAndChips";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence, useAnimation } from "framer-motion";
 import Traits from "@/components/ui/Traits";
 import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
 import { useAccount } from "wagmi";
@@ -21,6 +21,24 @@ export default function Home() {
   const goToNextScreen = () => {
     setCurrentScreen((prevScreen) => (prevScreen + 1) % 3);
   };
+
+  const [frontImageIndex, setFrontImageIndex] = useState(0);
+  const [backImageIndex, setBackImageIndex] = useState(1);
+
+  const images = [
+    "/minted_nft_1.png",
+    "/minted_nft_2.png",
+    "/minted_nft_3.png",
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFrontImageIndex((prev) => (prev + 1) % images.length);
+      setBackImageIndex((prev) => (prev + 1) % images.length);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <Page back={true}>
@@ -54,12 +72,57 @@ export default function Home() {
         {currentScreen === 1 && (
           <div className="flex flex-col items-center gap-12">
             <h2 className="text-2xl font-bold mb-4">Mint your Agent</h2>
-            <Image
-              src="/empty_card_stack.png"
-              alt="Mint your agent"
-              width={200}
-              height={300}
-            />
+            <div className="relative w-[200px] h-[250px]">
+              <div className="absolute top-0 left-4 transform perspective-1000">
+                <motion.div
+                  className="relative w-[180px] h-[220px]"
+                  animate={{
+                    rotateY: [0, 0, 360],
+                  }}
+                  transition={{
+                    duration: 2,
+                    times: [0, 0.1, 1],
+                    repeat: Infinity,
+                    ease: "linear",
+                    repeatDelay: 0,
+                  }}
+                  style={{ transformStyle: "preserve-3d" }}
+                >
+                  {/* Front of card */}
+                  <motion.div
+                    className="absolute w-full h-full backface-hidden"
+                    style={{ backfaceVisibility: "hidden" }}
+                  >
+                    <Image
+                      src={images[frontImageIndex]}
+                      alt="Card Front"
+                      width={180}
+                      height={220}
+                      className="rounded-xl shadow-lg"
+                      priority
+                    />
+                  </motion.div>
+
+                  {/* Back of card */}
+                  <motion.div
+                    className="absolute w-full h-full backface-hidden"
+                    style={{
+                      backfaceVisibility: "hidden",
+                      transform: "rotateY(180deg)",
+                    }}
+                  >
+                    <Image
+                      src={images[backImageIndex % images.length]}
+                      alt="Card Back"
+                      width={180}
+                      height={220}
+                      className="rounded-xl shadow-lg"
+                      priority
+                    />
+                  </motion.div>
+                </motion.div>
+              </div>
+            </div>
             <button
               className="bg-[url('/loading_screen_button_bg.png')] bg-no-repeat bg-cover px-12 py-5 font-bold font-abhaya"
               onClick={goToNextScreen}

@@ -514,7 +514,7 @@ const Page = () => {
         <div className="flex flex-col items-center gap-44">
           <div className="flex flex-col gap-16 items-center">
             <div className="text-2xl font-abhaya text-center w-64">
-              We're matching you with other players...
+              We&apos;re matching you with other players...
             </div>
             <UserData />
             <DottedLine width={200} height={4} />

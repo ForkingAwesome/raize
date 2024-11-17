@@ -26,7 +26,7 @@ const londrina = Londrina_Solid({
 });
 
 export const metadata: Metadata = {
-  title: "Your Application Title Goes Here",
+  title: "Raize",
   description: "Your application description goes here",
 };
 
