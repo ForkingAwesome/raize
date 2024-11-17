@@ -13,7 +13,7 @@ const CurrentCards = ({ card1, card2, card3, card4, card5 }: Props) => {
     <div className="flex flex-row">
       {card1 ? (
         <Image
-          src={"/cards/" + card1 + ".png"}
+          src={"/cards/" + card1.toLocaleLowerCase() + ".png"}
           alt="Card"
           width={53}
           height={73}
@@ -28,7 +28,7 @@ const CurrentCards = ({ card1, card2, card3, card4, card5 }: Props) => {
       )}
       {card2 ? (
         <Image
-          src={"/cards/" + card2 + ".png"}
+          src={"/cards/" + card2.toLocaleLowerCase() + ".png"}
           alt="Card"
           width={53}
           height={73}
@@ -43,7 +43,7 @@ const CurrentCards = ({ card1, card2, card3, card4, card5 }: Props) => {
       )}
       {card3 ? (
         <Image
-          src={"/cards/" + card3 + ".png"}
+          src={"/cards/" + card3.toLocaleLowerCase() + ".png"}
           alt="Card"
           width={53}
           height={73}
@@ -58,7 +58,7 @@ const CurrentCards = ({ card1, card2, card3, card4, card5 }: Props) => {
       )}
       {card4 ? (
         <Image
-          src={"/cards/" + card4 + ".png"}
+          src={"/cards/" + card4.toLocaleLowerCase() + ".png"}
           alt="Card"
           width={53}
           height={73}
@@ -73,7 +73,7 @@ const CurrentCards = ({ card1, card2, card3, card4, card5 }: Props) => {
       )}
       {card5 ? (
         <Image
-          src={"/cards/" + card5 + ".png"}
+          src={"/cards/" + card5.toLocaleLowerCase() + ".png"}
           alt="Card"
           width={53}
           height={73}

@@ -49,11 +49,12 @@ export type GameState =
 const Page = () => {
   const [currentScreen, setCurrentScreen] = useState(3);
   const [loading, setLoading] = useState(false);
-  const [helperText, setHelperText] = useState("");
+  const [helperText, setHelperText] = useState("brain.ai called!");
   const { address } = useAccount();
 
-  const [currentGameState, setCurrentGameState] =
-    useState<GameState>("PreFlop");
+  const [dealerCardShowNumber, setDealerCardShowNumber] = useState(0);
+
+  const [currentGameState, setCurrentGameState] = useState<GameState>("River");
 
   const [player1Parsed, setPlayer1Parsed] = useState<PlayerData | null>(null);
   const [player2Parsed, setPlayer2Parsed] = useState<PlayerData | null>(null);
@@ -124,9 +125,9 @@ const Page = () => {
   const [isSmallBind, setSmallBind] = useState(true);
   const [isGameStarted, setGameStarted] = useState(false);
   const [cardStates, setCardStates] = useState<Array<null | string>>([
-    "9,spades",
-    "king,club",
-    "ace,hearts",
+    null,
+    null,
+    null,
     null,
     null,
   ]);
@@ -240,6 +241,8 @@ const Page = () => {
         },
       }
     );
+
+    return res;
   }
 
   async function onCall() {
@@ -312,104 +315,72 @@ const Page = () => {
   }
 
   async function refetchAll() {
+    console.log("refetech start");
     refetchCurrentPlayer();
     refetchGameState();
     refetchPlayer1();
     refetchPlayer2();
+    console.log("refetech complete");
   }
 
-  useEffect(() => {
-    refetchAll();
-
-    /*
-
-    PreFlop
-    - Check if it's my turn, then ask to bet
-    - If not, wait for opponent and keep refreshing
-    - Transition to Flop
-
-    Flop
-    - Repeat the same as PreFlop
-    - And reveal the first 3 cards
-    - Check, bet, call, fold
-    - Transition to Turn
-
-    Turn
-    - Third betting round
-    - 4th card reveal
-    - same as Flop
-    - Transition to River
-
-    River
-    - Fourth betting round
-    - 5th card reveal
-    - same as Flop
-
-    Showdown
-    - game complete
-    - player cards revealed
-    - winner declared
-
-    */
+  const takeAction = async () => {
+    console.log("currentGameState", currentGameState);
+    console.log("isMyTurn", isMyTurn);
 
     if (currentGameState === "PreFlop") {
       if (isMyTurn) {
-        onBet(100n);
+        await onBet(100n);
+        console.log("sssasds");
       } else {
         setHelperText("Waiting for opponent to bet");
       }
 
-      // Transition to Flop
       setCurrentGameState("Flop");
+      console.log("currentGameState", currentGameState);
     } else if (currentGameState === "Flop") {
       if (isMyTurn) {
-        // Ask player1 to bet
-        onBet(200n);
+        await onBet(350n);
       } else {
-        //  Wait for player2 to bet
         setHelperText("Waiting for opponent to bet");
       }
 
-      // Reveal first 3 cards
+      setDealerCardShowNumber(3);
       // Check, bet, call, fold
-      // TODO: Reveal cards
 
-      // Transition to Turn
       setCurrentGameState("Turn");
     } else if (currentGameState === "Turn") {
       if (isMyTurn) {
-        // Ask player1 to bet
-        onBet(300n);
+        await onBet(450n);
       } else {
         //  Wait for player1 to bet
         setHelperText("Waiting for opponent to bet");
       }
 
-      // TODO: Reveal 4th cards
+      setDealerCardShowNumber(4);
       // Check, bet, call, fold
 
-      // Transition to Flop
       setCurrentGameState("River");
     } else if (currentGameState === "River") {
       if (isMyTurn) {
         // Ask player1 to bet
-        onBet(400n);
+        await onBet(600n);
       } else {
         //  Wait for player1 to bet
         setHelperText("Waiting for opponent to bet");
       }
 
       // TODO: Reveal 4th cards
-      // Check, bet, call, fold
+      setDealerCardShowNumber(5);
 
       // Transition to Flop
       setCurrentGameState("Showdown");
     } else if (currentGameState === "Showdown") {
       // TODO: Winner declared
     }
+    refetchAll();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentGameState]);
+  };
 
   function getMessage(gameState: GameState) {
     switch (gameState) {
@@ -433,6 +404,7 @@ const Page = () => {
     // onCall();
     // onCheck();
     // onFold();
+    takeAction();
   }
 
   return (
@@ -576,16 +548,37 @@ const Page = () => {
               height={24}
             />
           </div> */}
-          <div className="font-abhaya text-4xl">brain.ai called!</div>
+          <div className="font-abhaya text-4xl">{helperText}</div>
           <button onClick={onTest}>Test</button>
+          <button onClick={refetchAll}>Refetch</button>
           <p>{getMessage(currentGameState)}</p>
           <Opponent />
           <CurrentCards
-            card1={cardStates[0]}
-            card2={cardStates[1]}
-            card3={cardStates[2]}
-            card4={cardStates[3]}
-            card5={cardStates[4]}
+            card1={
+              dealerCardShowNumber > 0
+                ? `${dealerCards?.at(0)?.rank!},${dealerCards?.at(0)?.suit!}`
+                : cardStates[0]
+            }
+            card2={
+              dealerCardShowNumber > 1
+                ? `${dealerCards?.at(1)?.rank!},${dealerCards?.at(1)?.suit!}`
+                : cardStates[1]
+            }
+            card3={
+              dealerCardShowNumber > 2
+                ? `${dealerCards?.at(2)?.rank!},${dealerCards?.at(2)?.suit!}`
+                : cardStates[2]
+            }
+            card4={
+              dealerCardShowNumber > 3
+                ? `${dealerCards?.at(3)?.rank!},${dealerCards?.at(3)?.suit!}`
+                : cardStates[3]
+            }
+            card5={
+              dealerCardShowNumber > 4
+                ? `${dealerCards?.at(4)?.rank!},${dealerCards?.at(4)?.suit!}`
+                : cardStates[4]
+            }
           />
           {player1Parsed && (
             <User
@@ -611,3 +604,32 @@ const Page = () => {
 };
 
 export default Page;
+
+/*
+    PreFlop
+    - Check if it's my turn, then ask to bet
+    - If not, wait for opponent and keep refreshing
+    - Transition to Flop
+
+    Flop
+    - Repeat the same as PreFlop
+    - And reveal the first 3 cards
+    - Check, bet, call, fold
+    - Transition to Turn
+
+    Turn
+    - Third betting round
+    - 4th card reveal
+    - same as Flop
+    - Transition to River
+
+    River
+    - Fourth betting round
+    - 5th card reveal
+    - same as Flop
+
+    Showdown
+    - game complete
+    - player cards revealed
+    - winner declared
+    */
